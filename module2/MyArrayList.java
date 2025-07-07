@@ -26,7 +26,7 @@ public class MyArrayList<T> implements Iterable<T> {
     }
 
   // Добавление по индексу
-  public void add(T element, int index) {
+  public void add(int index, T element) {
     checkIndexForAdd(index);
     ensureCapacity();
     for (int i = count; i > index ; i--) {
@@ -39,7 +39,7 @@ public class MyArrayList<T> implements Iterable<T> {
     // Получение элемента по индексу
   public T get(int index) {
     checkIndex(index);
-    return (T) array[index];
+    return array[index];
   }
 
   // Удаление элемента по индексу
@@ -52,13 +52,15 @@ public class MyArrayList<T> implements Iterable<T> {
 }
 
 // Удаление элемента по значению
-  public void remove(Object obj) {
+  public boolean remove(Object obj) {
     for (int i = 0; i < count; i++) {
       if (obj == null ? array[i] == null : obj.equals(array[i])) {
       System.arraycopy(array, i + 1, array, i, count - i - 1);
       array[--count] = null;
+      return true;
       }
     }
+    return false;
 }
 
   // Добавление всех элементов коллекции
