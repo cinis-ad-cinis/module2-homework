@@ -8,6 +8,7 @@ public class MyHashSet<T> {
   @SuppressWarnings("unchecked")
   public MyHashSet() {
     array = (T[]) new Object[DEFAULT_CAPACITY];
+    size = 0;
   }
 
   // Добавление элемента
@@ -35,14 +36,18 @@ public class MyHashSet<T> {
   // Проверка наличия элемента
   public boolean contains(T element) {
     for (int i = 0; i < size; i++) {
-      if(array[i] != null) {
-        if (element.equals(array[i])) {
-          return true;
+        if (element == null) {
+            if (array[i] == null) {
+                return true;
+            }
+        } else {
+            if (element.equals(array[i])) {
+                return true;
+            }
         }
-      }
     }
     return false;
-  }
+}
 
   // Увеличение вместимости
   private void ensureCapacity() {
