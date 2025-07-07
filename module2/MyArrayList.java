@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
@@ -35,10 +36,39 @@ public class MyArrayList<T> implements Iterable<T> {
     count++;
   }
 
-    public T get(int index) {
-      checkIndex(index);
-      return array[index];
+    // Получение элемента по индексу
+  public T get(int index) {
+    checkIndex(index);
+    return (T) array[index];
+  }
+
+  // Удаление элемента по индексу
+  public T remove(int index) {
+    checkIndex(index);
+    T removed = (T) array[index];
+    System.arraycopy(array, index + 1, array, index, count - index - 1);
+    array[--count] = null;
+    return removed;
+}
+
+// Удаление элемента по значению
+  public void remove(Object obj) {
+    for (int i = 0; i < count; i++) {
+      if (obj == null ? array[i] == null : obj.equals(array[i])) {
+      System.arraycopy(array, i + 1, array, i, count - i - 1);
+      array[--count] = null;
+      }
     }
+}
+
+  // Добавление всех элементов коллекции
+  public boolean addAll(Collection<? extends T> collection) {
+    for (T element : collection) {
+      add(element);
+    }
+    return !collection.isEmpty();
+  }
+
 
   // Расширение вместимости
     private void ensureCapacity() {
@@ -48,6 +78,7 @@ public class MyArrayList<T> implements Iterable<T> {
       }
     }
 
+  // Проверка индекса
     private void checkIndex(int index) {
       if (index >= count || index < 0) {
         throw new IndexOutOfBoundsException("Index " + index + ", Size " + count);
